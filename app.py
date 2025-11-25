@@ -12,23 +12,391 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.markdown("""
+def get_theme_css(is_dark):
+    if is_dark:
+        return """
     <style>
-    .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #1f77b4;
-        text-align: center;
-        margin-bottom: 2rem;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
+    
+    .main-header {
+        font-size: 2.25rem;
+        font-weight: 600;
+        color: #FAFAFA !important;
+        text-align: center;
+        margin-bottom: 2.5rem;
+        letter-spacing: -0.01em;
+    }
+    
+    .stExpander {
+        border: 1px solid #2d3748;
+        border-radius: 8px;
+        background-color: #1A1C23;
+    }
+    
+    .stExpander > div > div {
+        background-color: #1A1C23;
+    }
+    
+    .stButton > button {
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-1px);
+    }
+    
+    .stSelectbox > div > div {
+        border-radius: 6px;
+    }
+    
+    .stTextInput > div > div > input,
+    .stTextArea > div > div > textarea {
+        border-radius: 6px;
+        color: #FAFAFA !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        color: #FAFAFA !important;
+    }
+    
+    h3 {
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        color: #FAFAFA !important;
+    }
+    
+    h4 {
+        font-weight: 600;
+        color: #E2E8F0 !important;
+        font-size: 1.1rem;
+        margin-top: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .stMarkdown {
+        color: #FAFAFA !important;
+    }
+    
+    .stMarkdown p, .stMarkdown li, .stMarkdown div {
+        color: #FAFAFA !important;
+    }
+    
+    .stMarkdown hr {
+        margin: 2rem 0;
+        border: none;
+        border-top: 1px solid #2d3748;
+    }
+    
+    [data-testid="stMetricValue"] {
+        font-weight: 600;
+        color: #FAFAFA !important;
+    }
+    
+    [data-testid="stMetricLabel"] {
+        font-weight: 500;
+        color: #CBD5E0 !important;
+        font-size: 0.875rem;
+    }
+    
+    .stSuccess {
+        border-left: 3px solid #4caf50;
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #FAFAFA !important;
+    }
+    
+    .stError {
+        border-left: 3px solid #f44336;
+        background-color: rgba(244, 67, 54, 0.1);
+        color: #FAFAFA !important;
+    }
+    
+    .stWarning {
+        border-left: 3px solid #ff9800;
+        background-color: rgba(255, 152, 0, 0.1);
+        color: #FAFAFA !important;
+    }
+    
+    .stInfo {
+        border-left: 3px solid #2196f3;
+        background-color: rgba(33, 150, 243, 0.1);
+        color: #FAFAFA !important;
+    }
+    
     .metric-card {
-        background-color: #f0f2f6;
+        background-color: #1A1C23;
         padding: 1rem;
-        border-radius: 0.5rem;
+        border-radius: 8px;
         margin: 0.5rem 0;
+        border: 1px solid #2d3748;
+    }
+    
+    label {
+        color: #FAFAFA !important;
+    }
+    
+    .stSelectbox label, .stTextInput label, .stTextArea label {
+        color: #FAFAFA !important;
+    }
+    
+    .theme-switcher {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 999;
     }
     </style>
-""", unsafe_allow_html=True)
+"""
+    else:
+        return """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    
+    .stApp {
+        background-color: #ffffff !important;
+    }
+    
+    .main {
+        background-color: #ffffff !important;
+    }
+    
+    [data-testid="stAppViewContainer"] {
+        background-color: #ffffff !important;
+    }
+    
+    .main-header {
+        font-size: 2.25rem;
+        font-weight: 600;
+        color: #1a1a1a !important;
+        text-align: center;
+        margin-bottom: 2.5rem;
+        letter-spacing: -0.01em;
+    }
+    
+    .stExpander {
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 8px;
+        background-color: #ffffff !important;
+    }
+    
+    .stExpander > div > div {
+        background-color: #ffffff !important;
+    }
+    
+    .stExpander label {
+        color: #1a1a1a !important;
+    }
+    
+    .stButton > button {
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-1px);
+    }
+    
+    .stSelectbox > div > div {
+        border-radius: 6px;
+        background-color: #ffffff !important;
+    }
+    
+    .stTextInput > div > div > input,
+    .stTextArea > div > div > textarea {
+        border-radius: 6px;
+        color: #1a1a1a !important;
+        background-color: #ffffff !important;
+    }
+    
+    .stCheckbox label {
+        color: #1a1a1a !important;
+    }
+    
+    .stRadio label {
+        color: #1a1a1a !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        color: #1a1a1a !important;
+    }
+    
+    h3 {
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        color: #1a1a1a !important;
+    }
+    
+    h4 {
+        font-weight: 600;
+        color: #2c3e50 !important;
+        font-size: 1.1rem;
+        margin-top: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .stMarkdown {
+        color: #1a1a1a !important;
+    }
+    
+    .stMarkdown p, .stMarkdown li, .stMarkdown div, .stMarkdown span {
+        color: #1a1a1a !important;
+    }
+    
+    .stMarkdown hr {
+        margin: 2rem 0;
+        border: none;
+        border-top: 1px solid #e0e0e0;
+    }
+    
+    [data-testid="stMetricValue"] {
+        font-weight: 600;
+        color: #1a1a1a !important;
+    }
+    
+    [data-testid="stMetricLabel"] {
+        font-weight: 500;
+        color: #666666 !important;
+        font-size: 0.875rem;
+    }
+    
+    .stSuccess {
+        border-left: 3px solid #4caf50;
+        background-color: #f1f8f4 !important;
+        color: #1a1a1a !important;
+    }
+    
+    .stSuccess p, .stSuccess div {
+        color: #1a1a1a !important;
+    }
+    
+    .stError {
+        border-left: 3px solid #f44336;
+        background-color: #ffebee !important;
+        color: #1a1a1a !important;
+    }
+    
+    .stError p, .stError div {
+        color: #1a1a1a !important;
+    }
+    
+    .stWarning {
+        border-left: 3px solid #ff9800;
+        background-color: #fff3e0 !important;
+        color: #1a1a1a !important;
+    }
+    
+    .stWarning p, .stWarning div {
+        color: #1a1a1a !important;
+    }
+    
+    .stInfo {
+        border-left: 3px solid #2196f3;
+        background-color: #e3f2fd !important;
+        color: #1a1a1a !important;
+    }
+    
+    .stInfo p, .stInfo div {
+        color: #1a1a1a !important;
+    }
+    
+    .metric-card {
+        background-color: #ffffff;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 0.5rem 0;
+        border: 1px solid #e0e0e0;
+    }
+    
+    label {
+        color: #1a1a1a !important;
+    }
+    
+    .stSelectbox label, .stTextInput label, .stTextArea label {
+        color: #1a1a1a !important;
+    }
+    
+    [data-testid="stToggle"] label {
+        color: #1a1a1a !important;
+    }
+    
+    [data-testid="stToggle"] {
+        color: #1a1a1a !important;
+    }
+    
+    [data-testid="stToggle"] > label {
+        color: #1a1a1a !important;
+    }
+    
+    .stToggle label {
+        color: #1a1a1a !important;
+    }
+    
+    .stToggle > label {
+        color: #1a1a1a !important;
+    }
+    
+    div[data-baseweb="toggle"] {
+        color: #1a1a1a !important;
+    }
+    
+    div[data-baseweb="toggle"] label {
+        color: #1a1a1a !important;
+    }
+    
+    [data-baseweb="toggle"] label {
+        color: #1a1a1a !important;
+    }
+    
+    button[data-baseweb="toggle"] {
+        background-color: #4A90E2 !important;
+    }
+    
+    .stToggle {
+        color: #1a1a1a !important;
+    }
+    
+    .stToggle * {
+        color: #1a1a1a !important;
+    }
+    
+    .theme-switcher {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 999;
+    }
+    
+    p, span, div {
+        color: #1a1a1a !important;
+    }
+    
+    .element-container {
+        color: #1a1a1a !important;
+    }
+    
+    section[data-testid="stSidebar"] {
+        background-color: #ffffff !important;
+    }
+    
+    section[data-testid="stSidebar"] * {
+        color: #1a1a1a !important;
+    }
+    </style>
+"""
 
 @st.cache_data
 def parse_text_input(text: str) -> np.ndarray:
@@ -298,8 +666,52 @@ def plot_distribution_fit(data: np.ndarray, dist_name: str, params: tuple,
 
 
 def main():
-    st.markdown('<h1 class="main-header">📊 Distribution Fitting Tool</h1>', 
-                unsafe_allow_html=True)
+    if 'dark_mode' not in st.session_state:
+        st.session_state.dark_mode = True
+    
+    st.markdown(get_theme_css(st.session_state.dark_mode), unsafe_allow_html=True)
+    
+    col_header, col_theme = st.columns([5, 1])
+    
+    with col_header:
+        st.markdown('<h1 class="main-header">📊 Distribution Fitting Tool</h1>', 
+                    unsafe_allow_html=True)
+    
+    with col_theme:
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown(
+            f"""
+            <style>
+            div[data-testid="column"]:nth-child(2) {{
+                background-color: {'#1A1C23' if st.session_state.dark_mode else '#ffffff'} !important;
+                padding: 10px;
+                border-radius: 8px;
+            }}
+            [data-testid="stToggle"] {{
+                background-color: {'#1A1C23' if st.session_state.dark_mode else '#ffffff'} !important;
+            }}
+            [data-testid="stToggle"] label {{
+                color: {'#FAFAFA' if st.session_state.dark_mode else '#1a1a1a'} !important;
+                font-weight: 500 !important;
+            }}
+            [data-testid="stToggle"] > label {{
+                color: {'#FAFAFA' if st.session_state.dark_mode else '#1a1a1a'} !important;
+            }}
+            [data-baseweb="toggle"] label {{
+                color: {'#FAFAFA' if st.session_state.dark_mode else '#1a1a1a'} !important;
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        dark_mode = st.toggle(
+            "Dark Mode",
+            value=st.session_state.dark_mode,
+            key="theme_toggle"
+        )
+        if dark_mode != st.session_state.dark_mode:
+            st.session_state.dark_mode = dark_mode
+            st.rerun()
     
     if 'data' not in st.session_state:
         st.session_state.data = None
@@ -550,8 +962,8 @@ def main():
     
     st.markdown("---")
     st.markdown(
-        "<div style='text-align: center; color: #666; padding: 20px;'>"
-        "Distribution Fitting Tool | Built with Streamlit & SciPy"
+        "<div style='text-align: center; color: #888; padding: 24px 0; font-size: 0.875rem; font-weight: 400;'>"
+        "Distribution Fitting Tool | Streamlit & SciPy"
         "</div>",
         unsafe_allow_html=True
     )
