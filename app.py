@@ -7,7 +7,6 @@ from typing import Tuple, Optional, Dict, Any
 
 st.set_page_config(
     page_title="Distribution Fitting Tool",
-    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -739,7 +738,7 @@ def main():
     col_header, col_theme = st.columns([5, 1])
     
     with col_header:
-        st.markdown('<h1 class="main-header">📊 Distribution Fitting Tool</h1>', 
+        st.markdown('<h1 class="main-header">Distribution Fitting Tool</h1>', 
                     unsafe_allow_html=True)
     
     with col_theme:
@@ -797,7 +796,7 @@ def main():
     if 'manual_mode' not in st.session_state:
         st.session_state.manual_mode = False
     
-    with st.expander("📥 Data Input", expanded=True):
+    with st.expander("Data Input", expanded=True):
         input_method = st.radio(
             "Choose input method:",
             ["Manual Entry", "CSV Upload"],
@@ -820,11 +819,11 @@ def main():
                     if len(cleaned_data) > 0:
                         st.session_state.data = cleaned_data
                         st.session_state.data_summary = get_data_summary(cleaned_data)
-                        st.success(f"✅ Successfully loaded {len(cleaned_data)} data points!")
+                        st.success(f"Successfully loaded {len(cleaned_data)} data points.")
                     else:
-                        st.error("❌ No valid numeric data found. Please check your input.")
+                        st.error("No valid numeric data found. Please check your input.")
                 else:
-                    st.warning("⚠️ Please enter some data.")
+                    st.warning("Please enter some data.")
         
         else:
             uploaded_file = st.file_uploader(
@@ -840,7 +839,7 @@ def main():
                     numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
                     
                     if len(numeric_cols) == 0:
-                        st.error("❌ No numeric columns found in the CSV file.")
+                        st.error("No numeric columns found in the CSV file.")
                     elif len(numeric_cols) == 1:
                         selected_col = numeric_cols[0]
                         cleaned_data = clean_data(df[selected_col].values)
@@ -848,9 +847,9 @@ def main():
                         if len(cleaned_data) > 0:
                             st.session_state.data = cleaned_data
                             st.session_state.data_summary = get_data_summary(cleaned_data)
-                            st.success(f"✅ Successfully loaded {len(cleaned_data)} data points from column '{selected_col}'!")
+                            st.success(f"Successfully loaded {len(cleaned_data)} data points from column '{selected_col}'.")
                         else:
-                            st.error("❌ No valid numeric data found in the selected column.")
+                            st.error("No valid numeric data found in the selected column.")
                     else:
                         selected_col = st.selectbox(
                             "Select column to use:",
@@ -864,15 +863,15 @@ def main():
                             if len(cleaned_data) > 0:
                                 st.session_state.data = cleaned_data
                                 st.session_state.data_summary = get_data_summary(cleaned_data)
-                                st.success(f"✅ Successfully loaded {len(cleaned_data)} data points from column '{selected_col}'!")
+                                st.success(f"Successfully loaded {len(cleaned_data)} data points from column '{selected_col}'.")
                             else:
-                                st.error("❌ No valid numeric data found in the selected column.")
+                                st.error("No valid numeric data found in the selected column.")
                 except Exception as e:
-                    st.error(f"❌ Error reading CSV file: {str(e)}")
+                    st.error(f"Error reading CSV file: {str(e)}")
     
     if st.session_state.data is not None and st.session_state.data_summary is not None:
         st.markdown("---")
-        st.markdown("### 📊 Data Summary")
+        st.markdown("### Data Summary")
         summary = st.session_state.data_summary
         
         col1, col2, col3, col4, col5, col6 = st.columns(6)
@@ -920,11 +919,11 @@ def main():
                         st.session_state.fitted_param_dict = param_dict
                         st.session_state.fitted_dist = selected_dist
                     else:
-                        st.error(f"❌ Failed to fit {selected_dist} distribution.")
+                        st.error(f"Failed to fit {selected_dist} distribution.")
             
             if 'fitted_params' in st.session_state and 'fitted_dist' in st.session_state:
                 if st.session_state.fitted_dist == selected_dist:
-                    st.markdown("### 📈 Fitting Results")
+                    st.markdown("### Fitting Results")
                     
                     col_plot, col_metrics = st.columns([2, 1])
                     
@@ -961,7 +960,7 @@ def main():
                             st.metric("R²", f"{metrics.get('R²', 0):.6f}")
         
         else:
-            st.markdown("### 🎛️ Manual Parameter Adjustment")
+            st.markdown("### Manual Parameter Adjustment")
             
             bounds = dist_info['param_bounds'](st.session_state.data)
             param_names = dist_info['param_names']
@@ -1035,15 +1034,8 @@ def main():
                         st.metric("R²", f"{metrics.get('R²', 0):.6f}")
     
     else:
-        st.info("👆 Please load data using the Data Input section above to begin fitting distributions.")
+        st.info("Please load data using the Data Input section above to begin fitting distributions.")
     
-    st.markdown("---")
-    st.markdown(
-        "<div style='text-align: center; color: #888; padding: 24px 0; font-size: 0.875rem; font-weight: 400;'>"
-        "Distribution Fitting Tool | Streamlit & SciPy"
-        "</div>",
-        unsafe_allow_html=True
-    )
 
 
 if __name__ == "__main__":
