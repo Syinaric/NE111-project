@@ -33,7 +33,7 @@ def get_theme_css(is_dark):
     
     .stExpander {
         border: 1px solid #2d3748;
-        border-radius: 8px;
+        border-radius: 0px;
         background-color: #1A1C23;
     }
     
@@ -43,7 +43,7 @@ def get_theme_css(is_dark):
     
     .stButton > button {
         font-weight: 500;
-        border-radius: 6px;
+        border-radius: 0px;
         transition: all 0.2s ease;
     }
     
@@ -52,12 +52,12 @@ def get_theme_css(is_dark):
     }
     
     .stSelectbox > div > div {
-        border-radius: 6px;
+        border-radius: 0px;
     }
     
     .stTextInput > div > div > input,
     .stTextArea > div > div > textarea {
-        border-radius: 6px;
+        border-radius: 0px;
         color: #FAFAFA !important;
     }
     
@@ -133,7 +133,7 @@ def get_theme_css(is_dark):
     .metric-card {
         background-color: #1A1C23;
         padding: 1rem;
-        border-radius: 8px;
+        border-radius: 0px;
         margin: 0.5rem 0;
         border: 1px solid #2d3748;
     }
@@ -151,6 +151,22 @@ def get_theme_css(is_dark):
         top: 10px;
         right: 10px;
         z-index: 999;
+    }
+    
+    * {
+        border-radius: 0px !important;
+    }
+    
+    button, input, select, textarea, div, section, article, aside, header, footer, nav, main {
+        border-radius: 0px !important;
+    }
+    
+    [class*="st"] {
+        border-radius: 0px !important;
+    }
+    
+    [data-testid] {
+        border-radius: 0px !important;
     }
     </style>
 """
@@ -186,7 +202,7 @@ def get_theme_css(is_dark):
     
     .stExpander {
         border: 1px solid #e0e0e0 !important;
-        border-radius: 8px;
+        border-radius: 0px;
         background-color: #ffffff !important;
     }
     
@@ -200,7 +216,7 @@ def get_theme_css(is_dark):
     
     .stButton > button {
         font-weight: 500;
-        border-radius: 6px;
+        border-radius: 0px;
         transition: all 0.2s ease;
     }
     
@@ -209,13 +225,13 @@ def get_theme_css(is_dark):
     }
     
     .stSelectbox > div > div {
-        border-radius: 6px;
+        border-radius: 0px;
         background-color: #ffffff !important;
     }
     
     .stTextInput > div > div > input,
     .stTextArea > div > div > textarea {
-        border-radius: 6px;
+        border-radius: 0px;
         color: #1a1a1a !important;
         background-color: #ffffff !important;
     }
@@ -316,7 +332,7 @@ def get_theme_css(is_dark):
     .metric-card {
         background-color: #ffffff;
         padding: 1rem;
-        border-radius: 8px;
+        border-radius: 0px;
         margin: 0.5rem 0;
         border: 1px solid #e0e0e0;
     }
@@ -335,42 +351,75 @@ def get_theme_css(is_dark):
     
     [data-testid="stToggle"] {
         color: #1a1a1a !important;
+        background-color: #ffffff !important;
     }
     
     [data-testid="stToggle"] > label {
         color: #1a1a1a !important;
+        background-color: transparent !important;
+    }
+    
+    [data-testid="stToggle"] label {
+        color: #1a1a1a !important;
+        background-color: transparent !important;
+    }
+    
+    .stToggle {
+        color: #1a1a1a !important;
+        background-color: #ffffff !important;
     }
     
     .stToggle label {
         color: #1a1a1a !important;
+        background-color: transparent !important;
     }
     
     .stToggle > label {
+        color: #1a1a1a !important;
+        background-color: transparent !important;
+    }
+    
+    .stToggle * {
         color: #1a1a1a !important;
     }
     
     div[data-baseweb="toggle"] {
         color: #1a1a1a !important;
+        background-color: #ffffff !important;
     }
     
     div[data-baseweb="toggle"] label {
         color: #1a1a1a !important;
+        background-color: transparent !important;
+    }
+    
+    [data-baseweb="toggle"] {
+        color: #1a1a1a !important;
+        background-color: #ffffff !important;
     }
     
     [data-baseweb="toggle"] label {
         color: #1a1a1a !important;
+        background-color: transparent !important;
     }
     
     button[data-baseweb="toggle"] {
         background-color: #4A90E2 !important;
     }
     
-    .stToggle {
-        color: #1a1a1a !important;
+    [data-baseweb="base-input"] {
+        background-color: #ffffff !important;
     }
     
-    .stToggle * {
+    .element-container [data-testid="stToggle"] {
+        background-color: #ffffff !important;
+        padding: 10px !important;
+        border: 1px solid #e0e0e0 !important;
+    }
+    
+    .element-container [data-testid="stToggle"] label {
         color: #1a1a1a !important;
+        font-weight: 500 !important;
     }
     
     .theme-switcher {
@@ -394,6 +443,22 @@ def get_theme_css(is_dark):
     
     section[data-testid="stSidebar"] * {
         color: #1a1a1a !important;
+    }
+    
+    * {
+        border-radius: 0px !important;
+    }
+    
+    button, input, select, textarea, div, section, article, aside, header, footer, nav, main {
+        border-radius: 0px !important;
+    }
+    
+    [class*="st"] {
+        border-radius: 0px !important;
+    }
+    
+    [data-testid] {
+        border-radius: 0px !important;
     }
     </style>
 """
@@ -684,21 +749,33 @@ def main():
             <style>
             div[data-testid="column"]:nth-child(2) {{
                 background-color: {'#1A1C23' if st.session_state.dark_mode else '#ffffff'} !important;
-                padding: 10px;
-                border-radius: 8px;
+            }}
+            div[data-testid="column"]:nth-child(2) * {{
+                color: {'#FAFAFA' if st.session_state.dark_mode else '#1a1a1a'} !important;
             }}
             [data-testid="stToggle"] {{
-                background-color: {'#1A1C23' if st.session_state.dark_mode else '#ffffff'} !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }}
+            [data-testid="stToggle"] * {{
+                color: {'#FAFAFA' if st.session_state.dark_mode else '#1a1a1a'} !important;
             }}
             [data-testid="stToggle"] label {{
                 color: {'#FAFAFA' if st.session_state.dark_mode else '#1a1a1a'} !important;
                 font-weight: 500 !important;
-            }}
-            [data-testid="stToggle"] > label {{
-                color: {'#FAFAFA' if st.session_state.dark_mode else '#1a1a1a'} !important;
+                visibility: visible !important;
+                opacity: 1 !important;
             }}
             [data-baseweb="toggle"] label {{
                 color: {'#FAFAFA' if st.session_state.dark_mode else '#1a1a1a'} !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }}
+            .stToggle label {{
+                color: {'#FAFAFA' if st.session_state.dark_mode else '#1a1a1a'} !important;
+                visibility: visible !important;
+                opacity: 1 !important;
             }}
             </style>
             """,
